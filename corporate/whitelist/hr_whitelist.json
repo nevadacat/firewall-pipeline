@@ -1,1 +1,14 @@
+{
+  "whitelist_urls": [
+    "microsoft.com",
+    "wikipedia.org",
+    "support.apple.com",
+    "tmz.com",
+    "bankofamerica.com",
+    "www.bankofamerica.com",
+    "www.usbank.com",
+    "eastsideboxing.com",
+    "nextdoor.com"
+    ]
+}
 

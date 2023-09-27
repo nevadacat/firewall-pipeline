@@ -1,0 +1,109 @@
+- hosts: localhost
+  vars:
+    username: admin
+    vdom: root
+  tasks:
+  - shell: aws ssm get-parameters --name 'ansible_fortigates_egress_ips' --query Parameters[*].Value
+      --output text
+    register: IPs
+  - shell: aws ssm get-parameters --name 'ansible_fortigates_egress_password' --query
+      Parameters[*].Value --output text --with-decryption
+    register: secret
+  - name: Configure url to be filtered by fortigate
+    fortios_webfilter_urlfilter:
+      host: '{{ item }}'
+      username: '{{ username }}'
+      password: '{{ secret.stdout }}'
+      vdom: '{{ vdom }}'
+      https: true
+      ssl_verify: false
+      webfilter_urlfilter:
+        state: present
+        id: '50'
+        name: dev_urlfilter
+        comment: dev_urlfilter
+        entries:
+        - id: '1'
+          url: microsoft.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '2'
+          url: wikipedia.org
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '3'
+          url: support.apple.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '4'
+          url: tmz.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '5'
+          url: bankofamerica.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '6'
+          url: www.bankofamerica.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '7'
+          url: www.usbank.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '8'
+          url: eastsideboxing.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '9'
+          url: nextdoor.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+        - id: '10'
+          url: '*'
+          type: wildcard
+          action: block
+          status: enable
+          exempt: pass
+          web_proxy_profile: dev_profile
+          referrer-host: ''
+    with_items:
+    - '{{ IPs.stdout.split(",")[0] }}'
+    - '{{ IPs.stdout.split(",")[1] }}'
+    - '{{ IPs.stdout.split(",")[2] }}'
