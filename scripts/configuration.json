@@ -1,0 +1,13 @@
+{
+    "environments": [
+        "corporate",
+        "technology",
+    ],
+
+    "corporate": {
+        "hr":  {"id": "120"}, "it":  {"id": "110"}, "finance": {"id": "300"}
+    },
+    "technology": {
+        "audit":  {"id": "100"}, "dev":  {"id": "110"}
+    }
+}
