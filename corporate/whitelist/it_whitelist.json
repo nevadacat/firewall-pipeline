@@ -9,5 +9,6 @@
     "www.usbank.com",
     "eastsideboxing.com",
     "nextdoor.com"
-    ]
+    "*.sophos.com"
+  ]
 }
