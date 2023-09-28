@@ -96,6 +96,14 @@
           web_proxy_profile: hr_profile
           referrer-host: ''
         - id: '10'
+          url: legalhelp.com
+          type: simple
+          action: allow
+          status: enable
+          exempt: pass
+          web_proxy_profile: hr_profile
+          referrer-host: ''
+        - id: '11'
           url: '*'
           type: wildcard
           action: block

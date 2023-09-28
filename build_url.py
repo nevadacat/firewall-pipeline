@@ -1,39 +1,15 @@
 import yaml, json, os
 with open('scripts/configuration.json', 'r') as configuration_file:
-    print(configuration_file)
-
     configuration = json.load(configuration_file)
-
     environments = configuration.get('environments')
     print(environments)
-
-
-
     for environment in environments:
         accounts = configuration.get(environment)
-        print(type(accounts))
-
-
         for account, account_info in accounts.items():
             file_name = environment + "/whitelist/" + account + "_whitelist.json"
-            print(account)
-            print(account_info)
-
-
-
-
-
-
-
-          #try:
-            with open(file_name, 'r') as json_file:
-
+            try:
+              with open(file_name, 'r') as json_file:
                     json_data = json.load(json_file)
-
-
-
-
-
                     baseline_yaml = [
                         {
                             "hosts": "localhost",
@@ -121,25 +97,18 @@ with open('scripts/configuration.json', 'r') as configuration_file:
                             "referrer-host": ""
                         })
                     json_file.close()
-
-
-
-
-
                     url_playbook_filename = os.path.join(environment, "ansible_playbooks", "webfilter_url_playbooks",
                                                          account + "_webfilter_add_url.yaml")
                     print(os.path.abspath(url_playbook_filename))
-
-                    for x in os.path.abspath(url_playbook_filename):
-
-                      with open(url_playbook_filename, 'w+') as file:
+                    #for x in os.path.abspath(url_playbook_filename):
+                    with open(url_playbook_filename, 'w+') as file:
                         documents = yaml.dump(baseline_yaml, file, allow_unicode=True, sort_keys=False)
-                        file.close()
-#                        del baseline_yaml[:]
-#                        del baseline_yaml
+                    file.close()
+                    del baseline_yaml[:]
+                    del baseline_yaml
+            except Exception as e:
+                print("something went wrong: ", e)
 
-            #except:
-              #print("Whoops!")
 
 
 
