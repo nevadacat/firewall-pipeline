@@ -8,6 +8,7 @@
     "www.bankofamerica.com",
     "www.usbank.com",
     "eastsideboxing.com",
-    "nextdoor.com"
-    ]
+    "nextdoor.com",
+    "*.legallzoom.com"
+  ]
 }
