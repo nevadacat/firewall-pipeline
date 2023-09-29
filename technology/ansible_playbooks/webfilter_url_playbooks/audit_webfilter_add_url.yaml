@@ -1,109 +1,89 @@
-- hosts: localhost
+- hosts: FW00
+  collections: '[fortinet.fortios]'
+  connection: httpapi
   vars:
-    username: admin
     vdom: root
+    ansible_httpapi_use_ssl: 'no'
+    ansible_httpapi_validate_certs: 'no'
+    ansible_httpapi_port: '80'
+    ansible_network_os: fortinet.fortios.fortios
   tasks:
-  - shell: aws ssm get-parameters --name 'ansible_fortigates_egress_ips' --query Parameters[*].Value
-      --output text
-    register: IPs
-  - shell: aws ssm get-parameters --name 'ansible_fortigates_egress_password' --query
-      Parameters[*].Value --output text --with-decryption
-    register: secret
   - name: Configure url to be filtered by fortigate
     fortios_webfilter_urlfilter:
-      host: '{{ item }}'
-      username: '{{ username }}'
-      password: '{{ secret.stdout }}'
       vdom: '{{ vdom }}'
-      https: true
-      ssl_verify: false
+      access_token: 6kyx54wpbpp8q5GHGktrN4fpj5jsnq
+      state: present
       webfilter_urlfilter:
-        state: present
-        id: '40'
-        name: audit_urlfilter
-        comment: audit_urlfilter
+        id: '351'
+        name: poopy20
         entries:
-        - id: '1'
+        - action: allow
+          dns_address_family: ipv4
+          id: '1'
+          referrer_host: myhostname
+          status: enable
+          type: simple
           url: microsoft.com
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '2'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '2'
+          type: simple
           url: wikipedia.org
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '3'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '3'
+          type: simple
           url: support.apple.com
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '4'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '4'
+          type: simple
           url: tmz.com
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '5'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '5'
+          type: simple
           url: bankofamerica.com
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '6'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '6'
+          type: simple
           url: www.bankofamerica.com
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '7'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '7'
+          type: simple
           url: www.usbank.com
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '8'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '8'
+          type: simple
           url: eastsideboxing.com
-          type: simple
-          action: allow
+        - action: allow
+          dns_address_family: ipv4
+          id: '9'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '9'
+          type: simple
           url: nextdoor.com
-          type: simple
-          action: allow
+        - action: block
+          dns_address_family: ipv4
+          id: '10'
+          referrer_host: myhostname
           status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-        - id: '10'
-          url: '*'
           type: wildcard
-          action: block
-          status: enable
-          exempt: pass
-          web_proxy_profile: audit_profile
-          referrer-host: ''
-    with_items:
-    - '{{ IPs.stdout.split(",")[0] }}'
-    - '{{ IPs.stdout.split(",")[1] }}'
-    - '{{ IPs.stdout.split(",")[2] }}'
+          url: '*'
